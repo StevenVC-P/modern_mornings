@@ -17,6 +17,7 @@ var reportSlide = 0;
 var newsRow =$('#newsrow');
 var newsArray = newsRow[0].children || [];
 
+//calls to the Quote API
 quoteBlock = $('#quoteblock');
   const settings = {
       "async": true,
@@ -26,14 +27,9 @@ quoteBlock = $('#quoteblock');
     }
     $.ajax(settings).done(function (response) {
       const data = JSON.parse(response);
-      console.log(data);
       var randomQuote = Math.floor(Math.random()
       * data.length);
-      console.log(randomQuote)
-      console.log(data[randomQuote].text)
-      console.log(data[randomQuote].author)
       var author = data[randomQuote].author  || "Unknown"
-      console.log(author)
       quoteBlock.text(data[randomQuote].text +" - " + author)
     });
 
@@ -191,7 +187,6 @@ function moveCarouselTo(reportSlide) {
 
 // Next navigation handler
 function moveNext() {
-  console.log("Works!")
 
   // If it's the last slide, reset to 0, else +1
   if (reportSlide === (newsArray.length - 1)) {
@@ -206,7 +201,6 @@ function moveNext() {
 
   // Previous navigation handler
 function movePrev() {
-  console.log("Works Too!")
 
   // If it's the first slide, set as the last slide, else -1
   if (reportSlide === 0) {
@@ -219,22 +213,22 @@ function movePrev() {
   moveCarouselTo(reportSlide);
 }
 
+//call to the news API with with the user's input
 function newsSearch(newsSearchInputText){
   $.ajax({
-      url:`https://gnews.io/api/v4/search?q=${newsSearchInputText}&country=us&token=4c6477a39ac0888785968fdb8d31562e`,
+      url:`https://gnews.io/api/v4/search?q=${newsSearchInputText}&country=us&token=c080133886efc4728fcd9059b5a45469`,
       method:'GET',
     }).then(function(response){
       console.log(response)
       newsRow.text("");
       $('#news-header').text(newsSearchInputText + ' News')
-
+  //begins creating cards for each news item
       for ( var i = 0; i < response.articles.length; i++ ){
         var newsCard =$('<figure>');
           newsCard.addClass('news_card col-8')
         
         var newsImage =$('<img id = news-image>');
           newsImage.attr('src',response.articles[i].image)
-          // newsImage.attr('style', 'width:100%; object-fit:contain; border-radius:4px;')
   
         var newsTitle = $('<h5>')
         var newsDescription = $('<p id = news_description>')
@@ -266,7 +260,7 @@ function newsSearch(newsSearchInputText){
   });
 }
 
-
+//calls to the Reddit API with user's input
 function redditData(newsSearchInputText){
   $.ajax({
     url: `https://www.reddit.com/r/memes/search.json?q=${newsSearchInputText}`,
