@@ -15,9 +15,6 @@ Modern Morning is a daily front page "newspaper".
 * [Tests](#Tests)
 * [Questions](#Questions)
 
-## Installation
-
-
 ## Usage
 When user opens the page, they will see today's date and time, a new daily inspirational quote, a news article and a reddit article. User can search for news they are interested in; previous searches will be saved in a drop down menu. Searched news will appear in a carousel that the user can scroll through.
 
@@ -27,9 +24,6 @@ Please review [https://opensource.org/licenses/MPL-2.0](https://opensource.org/l
 
 ## Contributing
 Sarah Lee & Kelsey Sanderson
-
-## Tests
-
 
 ## Questions
 Come checkout my Github!
