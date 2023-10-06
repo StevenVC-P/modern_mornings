@@ -215,48 +215,49 @@ function movePrev() {
 
 //call to the news API with with the user's input
 function newsSearch(newsSearchInputText){
-  $.ajax({
-    url: "https://worker-delicate-snow-64e5.steven-vancourt.workers.dev?search=" + newSearchInputText, // Replace with your actual Cloudflare Worker URL
-    method: "GET",
-  }).then(function (response) {
-    console.log(response);
-    newsRow.text("");
-    $("#news-header").text(newsSearchInputText + " News");
-    //begins creating cards for each news item
-    for (var i = 0; i < response.articles.length; i++) {
-      var newsCard = $("<figure>");
-      newsCard.addClass("news_card col-8");
+   const encodedSearchText = encodeURIComponent(newsSearchInputText);
+   $.ajax({
+     url: "https://worker-delicate-snow-64e5.steven-vancourt.workers.dev?search=" + encodedSearchText,
+     method: "GET",
+   }).then(function (response) {
+     console.log(response);
+     newsRow.text("");
+     $("#news-header").text(newsSearchInputText + " News");
+     //begins creating cards for each news item
+     for (var i = 0; i < response.articles.length; i++) {
+       var newsCard = $("<figure>");
+       newsCard.addClass("news_card col-8");
 
-      var newsImage = $("<img id = news-image>");
-      newsImage.attr("src", response.articles[i].image);
+       var newsImage = $("<img id = news-image>");
+       newsImage.attr("src", response.articles[i].image);
 
-      var newsTitle = $("<h5>");
-      var newsDescription = $("<p id = news_description>");
-      newsDescription.text(response.articles[i].description);
+       var newsTitle = $("<h5>");
+       var newsDescription = $("<p id = news_description>");
+       newsDescription.text(response.articles[i].description);
 
-      var newsSourceUrl = $("<p>");
-      newsSourceUrl.text(response.articles[i].source.url);
-      newsSourceUrl.attr("style", "text-align:center; font-style:italic;");
+       var newsSourceUrl = $("<p>");
+       newsSourceUrl.text(response.articles[i].source.url);
+       newsSourceUrl.attr("style", "text-align:center; font-style:italic;");
 
-      var newsSourceName = $("<a id= news_title>");
-      newsSourceName.attr("href", response.articles[i].url);
-      newsSourceName.attr("class", "news_link");
-      newsSourceName.attr("target", "_new");
-      newsSourceName.text(response.articles[i].title);
+       var newsSourceName = $("<a id= news_title>");
+       newsSourceName.attr("href", response.articles[i].url);
+       newsSourceName.attr("class", "news_link");
+       newsSourceName.attr("target", "_new");
+       newsSourceName.text(response.articles[i].title);
 
-      newsCard.append(newsTitle);
-      newsCard.append(newsSourceName);
-      newsCard.append(newsDescription);
-      newsCard.append(newsImage);
-      newsCard.append(newsSourceUrl);
-      newsRow.append(newsCard);
-    }
-    function initNewsCarousel() {
-      setInitNewsPost();
-      setNewsListeners();
-    }
-    initNewsCarousel();
-  });
+       newsCard.append(newsTitle);
+       newsCard.append(newsSourceName);
+       newsCard.append(newsDescription);
+       newsCard.append(newsImage);
+       newsCard.append(newsSourceUrl);
+       newsRow.append(newsCard);
+     }
+     function initNewsCarousel() {
+       setInitNewsPost();
+       setNewsListeners();
+     }
+     initNewsCarousel();
+   });
 }
 
 //calls to the Reddit API with user's input
